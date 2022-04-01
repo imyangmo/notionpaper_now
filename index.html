@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotionPaper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .masterhead {
+            width: 100vw;
+            height: 30vh;
+            background-image: url(./bg.jpg);
+            background-size: cover;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            font-size: 4em;
+            color: whitesmoke;
+            text-shadow: black 1px 0 10px;
+        }
+
+        .subtitle {
+            font-size: 1em;
+            color: whitesmoke;
+            font-weight: bold;
+            text-shadow: black 1px 0 10px;
+        }
+
+        .content {
+            margin-top: 1vh;
+        }
+
+        .footer {
+            width: 100vw;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="masterhead">
+        <h1 class="title">NotionPaper</h1>
+        <p class="subtitle">Turn your Notion pages to a static site.</p>
+    </div>
+    <div class="ui text container content">
+        <div class="ui vertical segment">
+            <h1>Step 1: Prepare</h1>
+            <p>Prepare your Notion database</p>
+        </div>
+        <div class="ui vertical segment">
+            <h1>Step 2: Authorize</h1>
+            <a target="view_window" href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://control.prelude.cc/release/auth&response_type=code" class="ui primary button">Click here to authorize</a>
+        </div>
+        <div class="ui vertical segment">
+            <h1>Step 3: Download</h1>
+            <button class="ui disabled button">
+                Wait for process complete
+              </button>
+        </div>
+    </div>
+
+
+
+    </div>
+    <div class="ui inverted footer segment" style="position: absolute;">
+        <p>NotionPaper</p>
+    </div>
+
+</body>
+
+</html>
