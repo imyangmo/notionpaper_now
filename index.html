@@ -111,7 +111,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {'Content-Type': 'application/json'},
-                body: creds
+                body: JSON.stringify(creds)
             })
             return resp.json()
         }
