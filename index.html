@@ -113,7 +113,8 @@
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(creds)
             })
-            return resp.json()
+            const jwt = await resp.json()
+            return jwt
         }
 
         function googleLoginHandler(creds){
