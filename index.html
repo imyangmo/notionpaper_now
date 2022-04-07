@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
         integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         body {
             margin: 0;
@@ -63,7 +63,19 @@
     <div class="ui text container content">
         <div class="ui vertical segment">
             <h1>Step 1: Login</h1>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div id="g_id_onload"
+            data-client_id="934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com"
+            data-callback="g_id_handler"
+            data-auto_prompt="false">
+         </div>
+         <div class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="sign_in_with"
+            data-shape="rectangular"
+            data-logo_alignment="left">
+         </div>
         </div>
         <div class="ui vertical segment">
             <h1>Step 2: Prepare</h1>
@@ -92,13 +104,9 @@
     </div>
 
     <script>
-        function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
+        function g_id_handler(resp){
+            console.log(resp)
+        }
     </script>
 
 </body>
