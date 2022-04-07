@@ -108,6 +108,7 @@
             loginAddr = "https://control.prelude.cc/login"
             const resp = await fetch(loginAddr, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {'Content-Type': 'application/json'},
                 body: creds
             })
