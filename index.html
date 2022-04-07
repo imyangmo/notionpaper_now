@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
         integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com">
     <style>
         body {
             margin: 0;
@@ -60,17 +62,24 @@
     </div>
     <div class="ui text container content">
         <div class="ui vertical segment">
-            <h1>Step 1: Prepare</h1>
+            <h1>Step 1: Login</h1>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
+        <div class="ui vertical segment">
+            <h1>Step 2: Prepare</h1>
             <p>Prepare your Notion database</p>
         </div>
         <div class="ui vertical segment">
-            <h1>Step 2: Authorize</h1>
+            <h1>Step 3: Authorize</h1>
             <a target="view_window" href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://control.prelude.cc/release/auth&response_type=code" class="ui primary button">Click here to authorize</a>
         </div>
         <div class="ui vertical segment">
-            <h1>Step 3: Download</h1>
+            <h1>Step 4: Download</h1>
             <button class="ui disabled button">
                 Wait for process complete
+              </button>
+            <button class="ui button" onclick=onSignIn()>
+                GET INFO
               </button>
         </div>
     </div>
@@ -81,6 +90,16 @@
     <div class="ui inverted footer segment" style="position: absolute;">
         <p>NotionPaper</p>
     </div>
+
+    <script>
+        function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+    </script>
 
 </body>
 
