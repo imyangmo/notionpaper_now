@@ -37,10 +37,11 @@
         if (code == null) {
             document.getElementById("info").innerHTML = "Invalid URL"
         } else {
+            document.getElementById("info").innerHTML = "Waiting authorization"
             notionAuth(code)
                 .then(
                     data => {
-                        console.log(JSON.parse(data))
+                        console.log(data)
                     }
                 )
 
