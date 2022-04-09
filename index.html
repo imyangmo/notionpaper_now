@@ -29,13 +29,13 @@
             justify-content: center;
         }
 
-        .title {
+        .masterhead .title {
             font-size: 4em;
             color: whitesmoke;
             text-shadow: black 1px 0 10px;
         }
 
-        .subtitle {
+        .masterhead .subtitle {
             font-size: 1em;
             color: whitesmoke;
             font-weight: bold;
@@ -52,6 +52,10 @@
             position: absolute;
             bottom: 0;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -61,6 +65,72 @@
         <p class="subtitle">Turn your Notion pages to a static site.</p>
     </div>
     <div class="ui text container content">
+
+        <!-- <div class="ui grid">
+            <div class="five wide column">
+
+                <div class="ui fluid ordered vertical steps">
+                    <div id="step1Menu" class="active step">
+                        <div class="content">
+                            <div class="title">Login</div>
+                            <div class="description">Let us recognize you</div>
+                        </div>
+                    </div>
+                    <div id="step2Menu" class="step">
+                        <div class="content">
+                            <div class="title">Prepare</div>
+                            <div class="description">Get your Notion Database done</div>
+                        </div>
+                    </div>
+                    <div id="step3Menu" class="step">
+                        <div class="content">
+                            <div class="title">Authorize</div>
+                            <div class="description">Let us access to your database</div>
+                        </div>
+                    </div>
+                    <div id="step4Menu" class="step">
+                        <div class="content">
+                            <div class="title">Download</div>
+                            <div class="description">Download the site</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="eleven wide column">
+                <div id="contentLoader" class="ui dimmer">
+                    <div class="ui loader"></div>
+                </div>
+                <div id="step1Content">
+                    <p>Please use the button below to sign-in our service</p>
+                    <div id="g_id_onload"
+                        data-client_id="934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com"
+                        data-callback="googleLoginHandler" data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                        data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                    </div>
+
+                </div>
+
+                <div id="step2Content" style="display: none;">
+
+                </div>
+
+                <div id="step3Content" style="display: none;">
+
+                </div>
+
+                <div id="step4Content" style="display: none;">
+
+                </div>
+
+
+            </div>
+
+        </div> -->
+
+
         <div class="ui vertical segment">
             <h1>Step 1: Login</h1>
             <div id="g_login_area">
@@ -71,9 +141,12 @@
                 <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
                     data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
                 </div>
+                <div id="contentLoader" class="ui dimmer">
+                    <div class="ui loader"></div>
+                </div>
             </div>
-            <div id="loggedin_area" style="display: none;">
-
+            <div id="loggedin_area" class="hidden">
+                <p id="step1Content"></p>
             </div>
 
         </div>
@@ -107,16 +180,39 @@
 
     <script>
         function stepHandler(resp, name) {
+
+            document.getElementById("g_login_area").classList.add("hidden")
+            document.getElementById("loggedin_area").classList.remove("hidden")
             console.log(resp.code)
             switch (resp.code) {
                 case 0:
                     console.log("Welcome back " + name)
+                    document.getElementById("step1Content").innerHTML = "Welcome back " + name
                     break
                 case 1:
                     console.log("Welcome join us " + name)
+                    document.getElementById("step1Content").innerHTML = "Welcome join us " + name
                     break
             }
         }
+
+        // function stepHandler(step, status){
+        //     loaderEle = document.getElementById("cotentLoader")
+        //     menuEle = document.getElementById("step" + step.toString() + "Menu")
+        //     nextMenuEle = document.getElementById("step" + step + 1 + "Menu")
+        //     contentEle = document.getElementById("step" + step.toString() + "Content")
+        //     switch(step){
+        //         case 1:
+        //             if(status == 'clicked'){
+        //                 loaderEle.classList.add("active")
+        //             }else if(status == 'done'){
+        //                 loaderEle.classList.remove("active")
+        //                 menuEle.classList.remove("active")
+        //                 menuEle.classList.add("completed")
+        //                 nextMenuEle.classList.add("active")
+        //             }
+        //     }
+        // }
 
         function parseJwt(token) {
             var base64Url = token.split('.')[1];
@@ -126,7 +222,8 @@
             }).join(''));
 
             return JSON.parse(jsonPayload)
-        };
+        }
+
         async function accountCreator(gid) {
             loginAddr = "https://control.prelude.cc/login"
             reqBody = {
@@ -144,9 +241,8 @@
         }
 
         function googleLoginHandler(creds) {
-            // console.log(typeof(creds))
+            document.getElementById('contentLoader').classList.add("active")
             result = parseJwt(creds.credential)
-            // console.log(result)
             const google_id = result.sub
             const google_name = result.name
             accountCreator(google_id)

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiting authorization from Notion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <p id="info"></p>
+    <script>
+        async function notionAuth(code) {
+            loginAddr = "https://control.prelude.cc/auth"
+            reqBody = {
+                "code": code
+            }
+            const resp = await fetch(loginAddr, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reqBody)
+            })
+            const jwt = await resp.json()
+            // console.log(jwt)
+            // const jwtObj = JSON.parse(jwt)
+            return jwt
+        }
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const code = urlParams.get('code')
+        console.log(code);
+        if (code == null) {
+            document.getElementById("info").innerHTML = "Invalid URL"
+        } else {
+            notionAuth(code)
+                .then(
+                    data => {
+                        console.log(JSON.parse(data))
+                    }
+                )
+
+        }
+
+    </script>
+</body>
+
+</html>
