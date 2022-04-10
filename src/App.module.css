@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+}
+
+.masterhead {
+  width: 100vw;
+  height: 30vh;
+  background-image: url(./assets/bg.jpg);
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2vh;
+}
+
+.masterhead .title {
+  font-size: 4em;
+  color: whitesmoke;
+  text-shadow: black 1px 0 10px;
+}
+
+.masterhead .subtitle {
+  font-size: 1em;
+  color: whitesmoke;
+  font-weight: bold;
+  text-shadow: black 1px 0 10px;
+}
+
+.content {
+  margin-top: 1vh;
+}
+
+.footer {
+  width: 100vw;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+}
+
+.hidden {
+  display: none;
+}

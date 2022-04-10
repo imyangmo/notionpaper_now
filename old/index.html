@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotionPaper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .masterhead {
+            width: 100vw;
+            height: 30vh;
+            background-image: url(./bg.jpg);
+            background-size: cover;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .masterhead .title {
+            font-size: 4em;
+            color: whitesmoke;
+            text-shadow: black 1px 0 10px;
+        }
+
+        .masterhead .subtitle {
+            font-size: 1em;
+            color: whitesmoke;
+            font-weight: bold;
+            text-shadow: black 1px 0 10px;
+        }
+
+        .content {
+            margin-top: 1vh;
+        }
+
+        .footer {
+            width: 100vw;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="masterhead">
+        <h1 class="title">NotionPaper</h1>
+        <p class="subtitle">Turn your Notion pages to a static site.</p>
+    </div>
+    <div class="ui text container content">
+
+        <!-- <div class="ui grid">
+            <div class="five wide column">
+
+                <div class="ui fluid ordered vertical steps">
+                    <div id="step1Menu" class="active step">
+                        <div class="content">
+                            <div class="title">Login</div>
+                            <div class="description">Let us recognize you</div>
+                        </div>
+                    </div>
+                    <div id="step2Menu" class="step">
+                        <div class="content">
+                            <div class="title">Prepare</div>
+                            <div class="description">Get your Notion Database done</div>
+                        </div>
+                    </div>
+                    <div id="step3Menu" class="step">
+                        <div class="content">
+                            <div class="title">Authorize</div>
+                            <div class="description">Let us access to your database</div>
+                        </div>
+                    </div>
+                    <div id="step4Menu" class="step">
+                        <div class="content">
+                            <div class="title">Download</div>
+                            <div class="description">Download the site</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="eleven wide column">
+                <div id="contentLoader" class="ui dimmer">
+                    <div class="ui loader"></div>
+                </div>
+                <div id="step1Content">
+                    <p>Please use the button below to sign-in our service</p>
+                    <div id="g_id_onload"
+                        data-client_id="934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com"
+                        data-callback="googleLoginHandler" data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                        data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                    </div>
+
+                </div>
+
+                <div id="step2Content" style="display: none;">
+
+                </div>
+
+                <div id="step3Content" style="display: none;">
+
+                </div>
+
+                <div id="step4Content" style="display: none;">
+
+                </div>
+
+
+            </div>
+
+        </div> -->
+
+
+        <div class="ui vertical segment">
+            <h1>Step 1: Login</h1>
+            <div id="g_login_area">
+                <div id="g_id_onload"
+                    data-client_id="934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com"
+                    data-callback="googleLoginHandler" data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                    data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                </div>
+                <div id="contentLoader" class="ui dimmer">
+                    <div class="ui loader"></div>
+                </div>
+            </div>
+            <div id="loggedin_area" class="hidden">
+                <p id="step1Content"></p>
+            </div>
+
+        </div>
+        <div class="ui vertical segment">
+            <h1>Step 2: Prepare</h1>
+            <p>Prepare your Notion database</p>
+        </div>
+        <div class="ui vertical segment">
+            <h1>Step 3: Authorize</h1>
+            <a target="view_window"
+                href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://notionpaper.prelude.cc/auth&response_type=code"
+                class="ui primary button">Click here to authorize</a>
+        </div>
+        <div class="ui vertical segment">
+            <h1>Step 4: Download</h1>
+            <button class="ui disabled button">
+                Wait for process complete
+            </button>
+        </div>
+    </div>
+
+
+
+    </div>
+    <div class="ui inverted footer segment" style="position: absolute;">
+        <p>NotionPaper</p>
+    </div>
+
+    <script>
+
+        // code = 0: initial code
+        // code = 1: found google id in cookie, but no notion token
+        // code = 2: found google id and notion token
+        let statusCode = 0
+
+        function stepHandler(resp, name) {
+
+            document.getElementById("g_login_area").classList.add("hidden")
+            document.getElementById("loggedin_area").classList.remove("hidden")
+            console.log(resp.code)
+            switch (resp.code) {
+                case 0:
+                    console.log("Welcome back " + name)
+                    document.getElementById("step1Content").innerHTML = "Welcome back " + name
+                    break
+                case 1:
+                    console.log("Welcome join us " + name)
+                    document.getElementById("step1Content").innerHTML = "Welcome join us " + name
+                    break
+            }
+        }
+
+        // function stepHandler(step, status){
+        //     loaderEle = document.getElementById("cotentLoader")
+        //     menuEle = document.getElementById("step" + step.toString() + "Menu")
+        //     nextMenuEle = document.getElementById("step" + step + 1 + "Menu")
+        //     contentEle = document.getElementById("step" + step.toString() + "Content")
+        //     switch(step){
+        //         case 1:
+        //             if(status == 'clicked'){
+        //                 loaderEle.classList.add("active")
+        //             }else if(status == 'done'){
+        //                 loaderEle.classList.remove("active")
+        //                 menuEle.classList.remove("active")
+        //                 menuEle.classList.add("completed")
+        //                 nextMenuEle.classList.add("active")
+        //             }
+        //     }
+        // }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload)
+        }
+
+        async function accountCreator(gid) {
+            loginAddr = "https://control.prelude.cc/login"
+            reqBody = {
+                "gid": gid
+            }
+            const resp = await fetch(loginAddr, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reqBody)
+            })
+            const jwt = await resp.json()
+            // console.log(jwt)
+            // const jwtObj = JSON.parse(jwt)
+            return jwt
+        }
+
+        function googleLoginHandler(creds) {
+            document.getElementById('contentLoader').classList.add("active")
+            result = parseJwt(creds.credential)
+            const google_id = result.sub
+            const google_name = result.name
+            accountCreator(google_id)
+                .then(data => {
+                    stepHandler(JSON.parse(data), google_name)
+                })
+        }
+
+        window.onload = function () {
+            const google_id = Cookies.get('google_id')
+            const notion_token = Cookies.get('np_token')
+            if (google_id == null) {
+                console.log("no google id")
+            } else {
+                // TODO: need to verify current google id 
+                if (notion_token == null){
+                    console.log("no notion token")
+                }
+        }
+        }
+    </script>
+
+</body>
+
+</html>
