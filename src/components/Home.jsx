@@ -7,6 +7,7 @@ function Home() {
     const [step, setStep] = createSignal(0);
     const [loading, setLoading] = createSignal(false);
     const [user, setUser] = createSignal("Let us recognize you")
+    const [whyModal, setWhyModal] = createSignal(false)
 
     function prevStep() {
         let s = step() - 1
@@ -57,9 +58,9 @@ function Home() {
             .then(data => {
                 const resp = JSON.parse(data)
                 console.log(resp)
-                if(resp.code == 0){
+                if (resp.code == 0) {
                     setUser("Welcome back, " + google_name + "!")
-                }else if(resp.code == 1){
+                } else if (resp.code == 1) {
                     setUser("Welcome join us, " + google_name + "!")
                 }
                 setStep(2)
@@ -67,7 +68,7 @@ function Home() {
             })
     }
 
-    function googleLoginBtn(){
+    function googleLoginBtn() {
         google.accounts.id.initialize({
             client_id: "934272751254-hdrod6b4ssep8plavq46fansmkv51lhs.apps.googleusercontent.com",
             callback: googleLoginHandler
@@ -90,13 +91,13 @@ function Home() {
             setLoading(false)
         } else {
             // TODO: need to verify current google id 
-            if (notion_token == null){
+            if (notion_token == null) {
                 console.log("no notion token")
                 setUser("Welcome back, " + google_name + "!")
                 setStep(2)
                 setLoading(false)
             }
-    }
+        }
 
     })
 
@@ -144,7 +145,20 @@ function Home() {
                         </div>
                         {/* Step 1 content area */}
                         <div classList={{ hidden: step() != 1 }}>
-                            <p>Please use the button below to sign in our service</p>
+                            <p>Please use the button below to sign in our service <a href='#'  onClick={ ()=>{setWhyModal(true)}}> Why?</a></p>
+                            <div classList={{ ui: true, mini: true, modal: true, active: whyModal() }}>
+                                <div class="header">Why do I need to login?</div>
+                                <div class="content">
+                                    <p>I hate login, seriously. But I need to recognize you so I don't need to ask Notion for your permission again and again.</p>
+                                    <p>To minimize the interruption, I used Google Signin service. Which means, I don't need to know your mail address, password, etc.. I only keep three things from you:</p>
+                                    <p>1. A encrypted string from Google to know who you are ;</p>
+                                    <p>2. Your name from Google;</p>
+                                    <p>3. A encrypted string to know you gave me your permission from Notion</p>
+                                </div>
+                                <div class="actions">
+                                    <div class="ui approve button" onClick={ ()=>{setWhyModal(false)} }>OK!</div>
+                                </div>
+                            </div>
                             <div id='google_login_btn' ></div>
                         </div>
                         {/* Step 2 content area */}
