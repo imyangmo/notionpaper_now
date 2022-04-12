@@ -169,7 +169,8 @@ function Home() {
                         <div classList={{ hidden: step() != 3 }}>
                             <a target="view_window"
                                 href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://notionpaper.prelude.cc/auth&response_type=code"
-                                class="ui primary button">Click here to authorize</a>
+                                // href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=http://localhost:3000/auth&response_type=code"
+class="ui primary button">Click here to authorize</a>
                         </div>
                         {/* Step 4 content area */}
                         <div classList={{ hidden: step() < 4 }}>
