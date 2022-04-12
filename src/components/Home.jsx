@@ -8,6 +8,7 @@ function Home() {
     const [loading, setLoading] = createSignal(false);
     const [user, setUser] = createSignal("Let us recognize you")
     const [whyModal, setWhyModal] = createSignal(false)
+    const [isNotionAuthSucc, setIsNotionAuthSucc] = createSignal(true)
 
     function prevStep() {
         let s = step() - 1
@@ -77,6 +78,31 @@ function Home() {
             document.getElementById("google_login_btn"),
             { theme: "outline", size: "large" }
         );
+    }
+
+    function notionAuthWindow(){
+        const w = window.open("", "", "width=600,height=800,left=200,top=200")
+        // const url = "https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://notionpaper.prelude.cc/auth&response_type=code"
+        const url = "https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=http://localhost:3000/auth&response_type=code"
+
+        w.location.href = url
+
+        function notionTokenDetect(){
+            setLoading(true)
+            console.log("checking notion token status")
+            const nt = Cookies.get("notion_token")
+            if(nt != 'error' && nt != null){
+                console.log("notion token found")
+                clearInterval(timer)
+                setLoading(false)
+            }else if(nt == 'error'){
+                console.log("notion auth failed")
+                clearInterval(timer)
+                setLoading(false)
+                setIsNotionAuthSucc(false)
+            }
+        }
+        let timer = setInterval(()=>{notionTokenDetect()}, 2000)
     }
 
     createEffect(() => {
@@ -167,10 +193,8 @@ function Home() {
                         </div>
                         {/* Step 3 content area */}
                         <div classList={{ hidden: step() != 3 }}>
-                            <a target="view_window"
-                                href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://notionpaper.prelude.cc/auth&response_type=code"
-                                // href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=http://localhost:3000/auth&response_type=code"
-class="ui primary button">Click here to authorize</a>
+                            <button class='ui primary button' onClick={notionAuthWindow}>Click here to authorize</button>
+                            <p classList={{hidden: !isNotionAuthSucc() }}>Authorization failed.</p>
                         </div>
                         {/* Step 4 content area */}
                         <div classList={{ hidden: step() < 4 }}>

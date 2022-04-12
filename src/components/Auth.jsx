@@ -8,7 +8,8 @@ function Auth(){
     const statusMsg = {
         0: "Please hold",
         1: "Waiting authorization from Notion... This may takes seconds",
-        2: "Invalid URL, please close this window"
+        2: "Invalid URL, please close this window",
+        3: "Some error happened"
     }
 
     async function notionAuth(code) {
@@ -39,6 +40,13 @@ function Auth(){
                 .then(
                     data => {
                         console.log(data)
+                        if("access_token" in data){
+                            Cookies.set("notion_token",data.access_token)
+                            window.close()
+                        }else{
+                            Cookies.set("notion_token","error")
+                            setStatus(3)
+                        }
                     }
                 )
 
