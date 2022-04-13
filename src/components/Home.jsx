@@ -8,7 +8,12 @@ function Home() {
     const [loading, setLoading] = createSignal(false);
     const [user, setUser] = createSignal("Let us recognize you")
     const [whyModal, setWhyModal] = createSignal(false)
-    const [isNotionAuthSucc, setIsNotionAuthSucc] = createSignal(true)
+    const [notionAuthStatus, setNotionAuthStatus] = createSignal(0)
+
+    const notionAuthMsg = {
+        0: "",
+        1: "Notion authorization failed."
+    }
 
     function prevStep() {
         let s = step() - 1
@@ -30,6 +35,10 @@ function Home() {
         }).join(''));
 
         return JSON.parse(jsonPayload)
+    }
+
+    async function accountRetriever(google_id, notion_token){
+        
     }
 
     async function accountCreator(gid) {
@@ -84,7 +93,6 @@ function Home() {
         const w = window.open("", "", "width=600,height=800,left=200,top=200")
         // const url = "https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=https://notionpaper.prelude.cc/auth&response_type=code"
         const url = "https://api.notion.com/v1/oauth/authorize?owner=user&client_id=9d297c54-4381-4438-88ae-58b0f55b310e&redirect_uri=http://localhost:3000/auth&response_type=code"
-
         w.location.href = url
 
         function notionTokenDetect(){
@@ -99,7 +107,7 @@ function Home() {
                 console.log("notion auth failed")
                 clearInterval(timer)
                 setLoading(false)
-                setIsNotionAuthSucc(false)
+                setNotionAuthStatus(1)
             }
         }
         let timer = setInterval(()=>{notionTokenDetect()}, 2000)
@@ -194,7 +202,7 @@ function Home() {
                         {/* Step 3 content area */}
                         <div classList={{ hidden: step() != 3 }}>
                             <button class='ui primary button' onClick={notionAuthWindow}>Click here to authorize</button>
-                            <p classList={{hidden: !isNotionAuthSucc() }}>Authorization failed.</p>
+                            <p>{notionAuthMsg[notionAuthStatus()]}</p>
                         </div>
                         {/* Step 4 content area */}
                         <div classList={{ hidden: step() < 4 }}>
