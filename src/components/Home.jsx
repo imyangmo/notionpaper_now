@@ -37,8 +37,16 @@ function Home() {
         return JSON.parse(jsonPayload)
     }
 
-    async function accountRetriever(google_id, notion_token){
-        
+    async function accountRetriever(google_id){
+        const loginAddr = "https://control.prelude.cc/login"
+        const reqBody = {
+            "gid": gid
+        }
+        const resp = await fetch(loginAddr, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reqBody)
+        })
     }
 
     async function accountCreator(gid) {
