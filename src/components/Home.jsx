@@ -49,10 +49,11 @@ function Home() {
         })
     }
 
-    async function accountCreator(gid) {
+    async function accountCreator(gid, gname) {
         const loginAddr = "https://control.prelude.cc/login"
         const reqBody = {
-            "gid": gid
+            "gid": gid,
+            "gname": gname
         }
         const resp = await fetch(loginAddr, {
             method: 'POST',
@@ -72,7 +73,7 @@ function Home() {
         const google_name = result.name
         Cookies.set('google_id', google_id)
         Cookies.set('google_name', google_name)
-        accountCreator(google_id)
+        accountCreator(google_id, google_name)
             .then(data => {
                 const resp = JSON.parse(data)
                 console.log(resp)
